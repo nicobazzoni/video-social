@@ -8,7 +8,10 @@ import SwipeableMedia from "./SwipeableMedia";
 
 const UserUploads = () => {
     const [uploads, setUploads] = useState([]);
-  useEffect(() => {
+  
+  
+  
+    useEffect(() => {
     const uploadsCol = collection(db, "uploads");
     const unsubscribe = onSnapshot(uploadsCol, (snapshot) => {
         let uploadsData = snapshot.docs.map(doc => doc.data());
@@ -55,7 +58,7 @@ const UserUploads = () => {
                  </Link>
                 </div>
                 <h1 className="text-white bg-stone-800 m-2 font-mono p-1">{upload.description}</h1>
-                <div className={upload.files.length === 1 ? "flex justify-center" : "grid grid-cols-2 gap-4"}>
+                <div className={upload.files.length === 1 ? "flex items justify-center" : "grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4"}>
                   {upload.files.map((file, idx) => {
                     return <SwipeableMedia key={idx} file={file} />
                   })}

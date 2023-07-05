@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthContext } from './components/AuthContext';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import './App.css'
 
 
 

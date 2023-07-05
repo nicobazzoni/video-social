@@ -31,10 +31,16 @@ function HomePage() {
     <div  className=" mx-auto m-2 flex flex-col items-center items-cemter  bg-gradient-to-br h-screen  from-slate-900 via-black to-stone-900">
     
       { userData && (
-        <div className=" flex items-center font-mono text-center m-1 justify-between ">
+        <div className=" flex items-center space-x-3 font-mono text-center m-1 justify-between ">
           <h2 className="text-black p-2 bg-slate-100 w-fit">Welcome back, <span className="font-mono bg-blue-200 font-extrabold  text-black p-1">{userData.username}</span> !</h2>
           <Link to={`/profile/${userData.username}`}>
           <img className="h-20 w-20 border object-cover rounded m-1" src={userData.profilePicture} alt="Profile" /></Link>
+          <button 
+            onClick={handleSignOut} 
+            className="px-4 mt-4 py-2 mb-3 bg-red-500 text-white rounded"
+          >
+            Sign Out
+          </button>
         </div>
       )}
       <div className=" z-10 ">
@@ -55,14 +61,7 @@ function HomePage() {
         )}
       </div>
       <div className="fixed inset-x-0 bottom-0 flex justify-center items-center">
-        {userData ? (
-          <button 
-            onClick={handleSignOut} 
-            className="px-4 mt-4 py-2 bg-red-500 text-white rounded"
-          >
-            Sign Out
-          </button>
-        ) : (
+       
           <>
             <Link 
               to="/signin" 
@@ -77,7 +76,7 @@ function HomePage() {
               Sign Up
             </Link>
           </>
-        )}
+        
       </div>
     </div>
   );
