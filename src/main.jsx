@@ -34,7 +34,8 @@ function Main() {
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [auth, db]);
+  }, []);  // Empty dependencies array
+
 
   return (
     <Router>

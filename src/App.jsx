@@ -6,7 +6,8 @@ import SignUp from "./pages/SignUp";
 import DropZone from "./components/DropZone";
 import UploadForm from "./pages/UploadForm";
 import ProfilePage from "./pages/ProfilePage";
-import { db } from "./firebase";
+
+
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/video" element={<DropZone/>} />
         <Route path="/profile/:username" element={<ProfilePage/>} />
+      
       </Routes>
  
   );

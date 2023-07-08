@@ -74,12 +74,14 @@ const SignIn = () => {
             </button>
           </div>
         </form>
+        <div className=''>
         <Link 
               to="/signup" 
-              className="px-4 py-2 bg-black text-white rounded"
+              className="px-4 py-2  bg-black text-white rounded"
             >
               Sign Up
             </Link>
+            </div>
       </div>
     </div>
   );

@@ -3,15 +3,18 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useNavigate } from 'react-router-dom';
+
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [bio, setBio] = useState("");
+  const [location, setLocation] = useState("");
   const [profilePic, setProfilePic] = useState(null);
   const auth = getAuth();
   const db = getFirestore();
   const storage = getStorage();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleImageChange = (e) => {
     if (e.target.files[0]) {
@@ -22,39 +25,41 @@ const SignUp = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { user } = await createUserWithEmailAndPassword(auth, email, password);
+        const { user } = await createUserWithEmailAndPassword(auth, email, password);
+
+        // Upload profile picture
+        const storageRef = ref(storage, 'profiles/' + profilePic.name);
+        const uploadTask = uploadBytesResumable(storageRef, profilePic);
       
-      // Upload profile picture
-      const storageRef = ref(storage, 'profiles/' + profilePic.name);
-      const uploadTask = uploadBytesResumable(storageRef, profilePic);
-      
-      uploadTask.on('state_changed', 
-        (snapshot) => {
-          // Handle progress
-        }, 
-        (error) => {
-          // Handle error
-          console.log(error);
-        }, 
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+        uploadTask.on('state_changed', 
+          (snapshot) => {
+            // Handle progress
+          }, 
+          (error) => {
+            // Handle error
+            console.log(error);
+          }, 
+          async () => {
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+
             // Once the upload is complete, create a Firestore document for the user
             const userDocRef = doc(db, "users", user.uid);
-            setDoc(userDocRef, { 
+            await setDoc(userDocRef, { 
               username: username,
+              bio: bio,
+              location: location,
               profilePicture: downloadURL
             });
+
             console.log("User signed up and document created!");
             navigate('/');  // Redirect to home page
-
-          });
-        }
-      );
-      
+          }
+        );
     } catch (error) {
       console.error(error);
-    }
+    }    
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 via-blue-500 to-teal-500 py-12 px-4 sm:px-6 lg:px-8">
@@ -128,6 +133,35 @@ const SignUp = () => {
               />
             </div>
           </div>
+          <div>
+  <label htmlFor="bio" className="sr-only">
+    Biography
+  </label>
+  <input
+    id="bio"
+    name="bio"
+    type="text"
+    required
+    value={bio}
+    onChange={(e) => setBio(e.target.value)}
+    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+    placeholder="Tell us about yourself"
+  />
+</div>
+<div>
+  <label htmlFor="location" className="sr-only">
+    Location
+  </label>
+  <input
+    id="location"
+    name="location"
+    type="text"
+    value={location}
+    onChange={(e) => setLocation(e.target.value)}
+    className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+    placeholder="Where are you from?"
+  />
+</div>
           <div>
             <button
               type="submit"

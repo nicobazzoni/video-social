@@ -57,6 +57,9 @@ const Dropzone = () => {
             description,
             username: userData.username,
             userProfilePic: userData.profilePicture,
+            bio: userData.bio,
+            timestamp: Date.now(),
+            location: userData.location,
           });
         }
       );
@@ -73,7 +76,7 @@ const Dropzone = () => {
   return (
     <div className="container mx-auto px-4">
       <div className=" text-center m-1 justify-between align-items-center">
-        <h2 className="text-black font-mono text-bold bg-blue-300 p-1">Uploading as, <span className="font-mono bg-yellow-200 text-black p-1">{userData.username}</span></h2>
+        <h2 className="text-white font-mono text-bold bg-blue-300 p-1">Uploading as, <span className="font-mono bg-yellow-200 text-black p-1">{userData.username}</span></h2>
 
       </div>
       <div className="flex justify-center">
@@ -81,8 +84,8 @@ const Dropzone = () => {
           <input {...getInputProps()} />
           {
             isDragActive ?
-              <p className="text-center">Drop the files here ...</p> :
-              <p className="text-center">Drag 'n' drop some files here, or click to select files</p>
+              <p className="text-center text-white">Drop the files here ...</p> :
+              <p className="text-center text-white">Drag 'n' drop some files here, or click to select files</p>
           }
         </div>
       </div>

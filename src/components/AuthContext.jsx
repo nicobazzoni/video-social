@@ -1,34 +1,41 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { getAuth } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import React, { createContext, useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
-export const AuthContext = createContext(null);
+const AuthContext = createContext({});
 
-export const AuthProvider = ({ children }) => {
-  const [currentUserID, setCurrentUserID] = useState(null);
-  const [userData, setUserData] = useState(null);
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const auth = getAuth();
   const db = getFirestore();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(async user => {
-      setCurrentUserID(user ? user.uid : null);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (firebaseUser) {
+        const docRef = doc(db, "users", firebaseUser.uid);
+        const docSnap = await getDoc(docRef);
 
-      if (user) {
-        const userDocRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(userDocRef);
-        setUserData(userDoc.data());
+        if (docSnap.exists()) {
+          setUser({ uid: firebaseUser.uid, ...docSnap.data() });
+        } else {
+          console.log("No such document!");
+        }
       } else {
-        setUserData(null);
+        setUser(null);
       }
+      setLoading(false);
     });
 
-    return unsubscribe;
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
   }, [auth, db]);
 
   return (
-    <AuthContext.Provider value={{ userID: currentUserID, userData }}>
+    <AuthContext.Provider value={{ user, loading }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export { AuthContext, AuthProvider };
