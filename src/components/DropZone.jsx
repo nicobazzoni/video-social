@@ -58,7 +58,7 @@ const Dropzone = () => {
             username: userData.username,
             userProfilePic: userData.profilePicture,
             bio: userData.bio,
-            timestamp: Date.now(),
+            timestamp: new Date(upload.timestamp.seconds * 1000),
             location: userData.location,
           });
         }
