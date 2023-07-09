@@ -3,6 +3,7 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/dalle.png';  // Adjust the path as necessary
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -62,12 +63,14 @@ const SignUp = () => {
   
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 via-blue-500 to-teal-500 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen flex  items-center justify-center  bg-gradient-to-br from-pink-100 via-stone-900  to-black py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full  space-y-8">
+      
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-white">
-            Sign up for a new account
-          </h2>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-white flex flex-col items-center justify-center">
+            <img src={logo} alt="Logo" className="h-20 w-auto mb-2" />  {/* Adjust size as necessary */}
+                    Sign up for a new account
+                      </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" defaultValue="true" />

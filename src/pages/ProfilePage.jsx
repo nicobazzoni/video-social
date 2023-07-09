@@ -5,8 +5,9 @@ import { db } from "../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import SwipeableMedia from '../components/SwipeableMedia';
 import { format } from "date-fns";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { getStorage, ref as storageRef, deleteObject } from "firebase/storage";
 import { doc } from "firebase/firestore";
+import { storage } from "../firebase";
 
 
 const ProfilePage = () => {
@@ -84,6 +85,19 @@ const ProfilePage = () => {
     navigate("/");
   };
 
+
+  const deletePost = async (post) => {
+    const storage = getStorage();
+    const fileRef = storageRef(storage, post.storageRef);
+    await deleteObject(fileRef);
+    const docRef = doc(db, "uploads", post.id);
+    await docRef.delete();
+    setUserPosts(userPosts.filter((p) => p.id !== post.id));
+  };
+  
+
+
+
   return (
     <div className="mx-auto flex space-y-4 mt-1 flex-col items-center h-screen bg-gradient-to-br from-slate-900 via-black to-stone-900">
       <div className=" flex flex-col justify-center space-y-4 items-center font-mono bg-stone-900 text-white">
@@ -106,16 +120,21 @@ const ProfilePage = () => {
       )}
       {userPosts?.map((post, index) => (
                <div key={index} className="mx-auto flex-col items-center h-screen  space-y-2 bg-stone-900 justify-center">
-              <h1 className="   text-white bg-stone-800 font-mono p-1">{post.description}</h1>
-              <p className="text-white bg-stone-800 font-mono p-1">
+              <h1 className="   text-white bg-stone-900 font-mono p-1">{post.description}</h1>
+              <p className="text-white text-xs bg-stone-950 font-mono p-1">
       Posted on: {post.timestamp.toLocaleDateString()} at {post.timestamp.toLocaleTimeString()}
     </p>
                
-              <div className={post.files.length === 1 ? " flex flex-col justify-center" : "  grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4 ml-2 mr-2"}>
+              <div className={post.files.length === 1 ? "  bg-black flex flex-col justify-center" : " bg-black grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4 ml-2 mr-2"}>
                 {post.files.map((file, idx) => {
                   return <SwipeableMedia key={idx} file={file} />;
                 })}
               </div>
+                {userData && userData.username === username && (
+                    <div>
+                        <button onClick={() => deletePost(post)} className="text-xs border  h-10 w-14 bg-black mb-2 shadow-md shadow-white text-white font-mono border-stone-900 rounded p-1 m-2">Delete</button>
+                        </div>
+                )}
           </div>
       ))}
     </div>

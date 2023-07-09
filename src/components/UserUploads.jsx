@@ -60,11 +60,11 @@ const UserUploads = () => {
             {upload.files && upload.files.length > 0 && (
               <div className=" items-center ">
 
-                <div className=" bg-slate-100 justify-between flex items-center">
+                <div className=" bg-slate-100 justify-between border-blue-200 border-b-4 flex items-center">
                   <h1 className="font-mono bg-stone-200 p-1 m-1 shadow-lg shadow-stone-400  text-slate-500 font-extrabold ">
                     {upload.username}
                     </h1>
-                    
+
                   <div className="">                   
                      <h1 className="font-mono bg-stone-200 w-full h-8 p-1 m-1 text-stone-600 tracking-wide shadow-lg text-xs   font-extrabold ">
                         {upload.bio} 
@@ -75,12 +75,12 @@ const UserUploads = () => {
                  </Link>
                  
                 </div>
-                <div className="bg-white">
-                    <h1 className="text-black text-xs">{upload.location}</h1>
-                    <h1 className="text-stone-800 bg-stone-100 mt-3 font-bold  font-mono p-1 text-xs">{timestamp}</h1>
+                <div className="bg-white p-2 flex flex-col items-center">
+                    <h1 className="text-black text-center tracking-widest max-w-fit bg-slate-200 p-1 rounded  text-lg">{upload.location}</h1>
+                    <h1 className="text-stone-800 bg-stone-100 mt-3 font-bold tracking-widest  font-mono p-1 text-xs">{timestamp}</h1>
                 </div>
-                <h1 className="text-stone-800 bg-stone-200 m-2 font-mono p-1">{upload.description}</h1>
-                <div className={upload.files.length === 1 ? "flex flex-col items-center " : " grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center  gap-4 mr-3"}>
+                <h1 className="text-stone-800 bg-stone-50 m-2 font-mono p-1">{upload.description}</h1>
+                <div className={upload.files.length === 1 ? "flex flex-col items-center  " : "   grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center  gap-4 mr-3"}>
                   {upload.files.map((file, idx) => {
                     return <SwipeableMedia key={idx} file={file} />
                   })}

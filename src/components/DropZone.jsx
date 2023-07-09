@@ -60,6 +60,7 @@ const Dropzone = () => {
             bio: userData.bio,
             timestamp: new Date(),
             location: userData.location,
+            storageRef: `uploads/${file.name}` 
           });
         }
       );
