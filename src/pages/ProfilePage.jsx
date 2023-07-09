@@ -100,9 +100,9 @@ const ProfilePage = () => {
           </div>
       )}
       {userPosts?.map((post, index) => (
-          <div className="mx-auto flex flex-col mr-4 items-center h-screen" key={index}>
+               <div className="flex-col  border-t border-b-2 space-y-2 bg-stone-900 justify-center">key={index}>
               <h1 className="   text-white bg-stone-800 font-mono p-1">{post.description}</h1>
-              <div className={post.files.length === 1 ? "flex flex-col   justify-center" : "grid grid-cols-2 gap-4"}>
+              <div className={post.files.length === 1 ? " flex flex-col justify-center" : "  grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4 mr-4"}>
                 {post.files.map((file, idx) => {
                   return <SwipeableMedia key={idx} file={file} />;
                 })}
