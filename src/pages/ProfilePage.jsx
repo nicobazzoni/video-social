@@ -4,6 +4,9 @@ import { AuthContext } from "../components/AuthContext";
 import { db } from "../firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import SwipeableMedia from '../components/SwipeableMedia';
+import { format } from "date-fns";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { doc } from "firebase/firestore";
 
 
 const ProfilePage = () => {
@@ -56,7 +59,9 @@ const ProfilePage = () => {
                       bio: post.bio,
                       location: post.location,
                       profilePicture: post.profilePicture,
-                      files: [],
+                      timestamp: post.timestamp.toDate(),
+                    files: [],
+                      
                   };
               }
 
@@ -100,8 +105,12 @@ const ProfilePage = () => {
           </div>
       )}
       {userPosts?.map((post, index) => (
-               <div className="flex-col  border-t border-b-2 space-y-2 bg-stone-900 justify-center">key={index}>
+               <div key={index} className="mx-auto flex-col items-center h-screen  space-y-2 bg-stone-900 justify-center">
               <h1 className="   text-white bg-stone-800 font-mono p-1">{post.description}</h1>
+              <p className="text-white bg-stone-800 font-mono p-1">
+      Posted on: {post.timestamp.toLocaleDateString()} at {post.timestamp.toLocaleTimeString()}
+    </p>
+               
               <div className={post.files.length === 1 ? " flex flex-col justify-center" : "  grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4 mr-4"}>
                 {post.files.map((file, idx) => {
                   return <SwipeableMedia key={idx} file={file} />;
