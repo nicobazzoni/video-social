@@ -10,7 +10,7 @@ const SwipeableMedia = ({file, idx}) => {
 
     return isVideo ? (
         <video {...handlers} 
-            className="p-1 h-96 w-full object-cover border-none rounded " 
+            className="p-1 h-96 w-full m-1 object-cover border-none rounded " 
             key={idx} 
             src={file.url} 
             width="380" 
@@ -29,7 +29,7 @@ const SwipeableMedia = ({file, idx}) => {
             key={idx} 
             src={file.url} 
             alt="user upload" 
-            className="object-cover h-96 w-full mr-5 overflow-hidden rounded border-none shadow-xl shadow-black  "
+            className="object-cover h-96 w-full m-1 p-1 overflow-hidden rounded border-none shadow-xl shadow-black  "
             onClick={(event) => {
                 if (event.currentTarget.requestFullscreen) {
                     event.currentTarget.requestFullscreen();

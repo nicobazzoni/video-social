@@ -48,7 +48,7 @@ const HomePage = () => {
                     <p className="text-center">Please sign in.</p>
                 )}
             </div>
-            <div>
+            <div className="">
                 {userData ? <UserUploads /> : <p className="text-center">Please sign in.</p>}
             </div>
             {!userData && (

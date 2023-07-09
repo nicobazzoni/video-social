@@ -79,8 +79,8 @@ const UserUploads = () => {
                     <h1 className="text-black text-xs">{upload.location}</h1>
                     <h1 className="text-stone-800 bg-stone-100 mt-3 font-bold  font-mono p-1 text-xs">{timestamp}</h1>
                 </div>
-                <h1 className="text-stone-800 bg-stone-200 m-2font-mono p-1">{upload.description}</h1>
-                <div className={upload.files.length === 1 ? "flex flex-col justify-center" : " grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-4 mr-4"}>
+                <h1 className="text-stone-800 bg-stone-200 m-2 font-mono p-1">{upload.description}</h1>
+                <div className={upload.files.length === 1 ? "flex flex-col items-center " : " grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center  gap-4 mr-3"}>
                   {upload.files.map((file, idx) => {
                     return <SwipeableMedia key={idx} file={file} />
                   })}
